@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import MobileNavigation from "@/components/mobile-navigation";
 
 import { Poppins, Inter } from "next/font/google";
 
@@ -31,19 +30,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${poppins.variable} bg-gray-300 font-sans antialiased`}
       >
-        <div className="px-3 md:px-4 h-screen grid lg:grid-cols-[350px,1fr] lg:gap-6 grid-rows-[92px,1fr,92px] xl:grid-cols-[100px,430px,1fr] 2xl:grid-cols-[100px,350px,1fr,270px] [&>*]:text-4xl [&>*]:border-2 [&>*]:border-red-500">
-          <div className="row-start-1 col-span-4">header</div>
-          <div className="row-start-3 col-span-4 xl:row-start-1 xl:row-span-3 xl:col-start-1 xl:col-span-1">
-            navbar
-          </div>
-          <div className="row-start-2 xl:row-span-2 hidden lg:block">
-            category
-          </div>
-          <div className="col-start-1 xl:row-span-2 col-span-4 lg:col-start-2 lg:col-span-3 xl:col-start-3 2xl:col-span-2">
-            content
-          </div>
-          <div className="hidden 2xl:block xl:row-span-2">settings</div>
-        </div>
+        {children}
       </body>
     </html>
   );
