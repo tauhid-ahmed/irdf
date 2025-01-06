@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id           Int           @id @default(autoincrement())
+  cat_id       Int?          @unique
+  cat_name_bn  String?
+  cat_name_en  String?
+  no_of_subcat Int?
+  no_of_dua    Int?
+  cat_icon     String?
+  sub_category SubCategory[] // One-to-many relationship to SubCategory
+  Dua          Dua[] // One-to-many relationship to Dua
+}
+
+model Dua {
+  id                 Int     @id @default(autoincrement())
+  cat_id             Int // Foreign key for Category
+  subcat_id          Int? // Foreign key for SubCategory
+  dua_id             Int?    @unique
+  dua_name_bn        String?
+  dua_name_en        String?
+  top_bn             String?
+  top_en             String?
+  dua_arabic         String?
+  dua_indopak        String?
+  clean_arabic       String?
+  transliteration_bn String?
+  transliteration_en String?
+  translation_bn     String?
+  translation_en     String?
+  bottom_bn          String?
+  bottom_en          String?
+  refference_bn      String?
+  refference_en      String?
+  audio              String?
+
+  category     Category     @relation(fields: [cat_id], references: [id], onDelete: Cascade) // Relation to Category
+  sub_category SubCategory? @relation(fields: [subcat_id], references: [id], onDelete: Cascade) // Optional relation to SubCategory
+}
+
+model SubCategory {
+  id             Int      @id @default(autoincrement())
+  cat_id         Int // Foreign key for Category
+  subcat_id      Int?     @unique
+  subcat_name_bn String?
+  subcat_name_en String?
+  no_of_dua      Int?
+  category       Category @relation(fields: [cat_id], references: [id], onDelete: Cascade)
+  Dua            Dua[] // One-to-many relationship to Dua
+
+  @@map("sub_category") // Map to actual table name in the database
+}
