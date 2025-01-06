@@ -4,15 +4,16 @@ import DuaCard from "./_components/dua-card";
 export default async function Homepage({
   searchParams,
 }: {
-  params: any; // Type `params` if you know its structure
-  searchParams: { cat?: string };
+  searchParams: Promise<Record<string, string>>;
 }) {
-  const { cat: catId } = searchParams;
-  const duas = await getDuasByCategoryId(catId);
+  const { cat: catId } = await searchParams.catch((error) => error);
+  const duas = await getDuasByCategoryId(catId as string).catch(
+    (error) => error
+  );
 
   return (
     <>
-      <DuaCard duas={duas} catId={catId} />
+      <DuaCard duas={duas} catId={catId as number} />
     </>
   );
 }

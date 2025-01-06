@@ -2,23 +2,22 @@
 
 import * as Icons from "@/components/icons";
 import React from "react";
-import { useSearchParams } from "next/navigation";
 
 // Define type for `Dua`
 type Dua = {
   dua_name_en: string;
   top_en: string;
   dua_arabic: string;
-  transliteration_en?: string;
-  translation_en?: string;
+  transliteration_en: string;
+  translation_en: string | null;
   refference_en: string;
-  audio?: string; // Add this field for audio if it exists
+  audio: string | null;
 };
 
 // Props for `DuaCard`
 type DuaCardProps = {
-  catId: string | undefined; // `catId` can be a string or undefined if not provided
-  duas: Dua[]; // Add this property to the props
+  catId: number;
+  duas: Dua[];
 };
 
 export default function DuaCard({ duas, catId }: DuaCardProps) {
@@ -43,9 +42,6 @@ type CardContentProps = {
 };
 
 function CardContent({ dua, i }: CardContentProps) {
-  const searchParams = useSearchParams();
-  const catQuery = searchParams.get("cat");
-
   return (
     <div className="bg-white shadow py-4 px-7 rounded" key={i}>
       <h3 className="font-semibold text-brand flex items-center gap-2">

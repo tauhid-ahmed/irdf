@@ -10,26 +10,11 @@ import * as Icons from "@/components/icons";
 
 import { cn } from "@/lib/cn";
 
-// Define type for category props
-type Category = {
-  id: number;
-  cat_id: number;
-  cat_name_en: string;
-  no_of_dua: number;
-  sub_category: SubCategoryType[];
-};
+import { type Categories, type SubCategoryProps } from "../layout";
 
-type SubCategoryType = {
-  subcat_name_en: string;
-};
-
-type CategoriesProps = {
-  categories: Category[];
-};
-
-export default function Categories({ categories }: CategoriesProps) {
+export default function Categories({ categories }: { categories: Categories }) {
   const categoryRefs = React.useRef<Record<string, HTMLLIElement | null>>({});
-  const containerRef = React.useRef<HTMLUListElement | null>(null);
+  const containerRef = React.useRef<HTMLUListElement>(null);
   const [collapsedIndex, setCollapsedIndex] = React.useState<number | null>(
     null
   );
@@ -72,7 +57,9 @@ export default function Categories({ categories }: CategoriesProps) {
       <ul ref={containerRef} className="space-y-3 px-4 pt-20 -mt-20">
         {categories.map((category) => (
           <li
-            ref={(el) => (categoryRefs.current[`cat-${category.cat_id}`] = el)}
+            ref={(el: HTMLLIElement | null) => {
+              categoryRefs.current[`cat-${category.cat_id}`] = el;
+            }}
             key={category.id}
           >
             <Link
@@ -123,7 +110,8 @@ export default function Categories({ categories }: CategoriesProps) {
             {category.sub_category && collapsedIndex === category.cat_id && (
               <SubCategory
                 category={category.sub_category}
-                catId={category.cat_id}
+                catId={category.cat_id as number}
+                // subcat_id={0}
               />
             )}
           </li>
@@ -133,13 +121,13 @@ export default function Categories({ categories }: CategoriesProps) {
   );
 }
 
-type SubCategoryProps = {
-  category: SubCategoryType[];
+function SubCategory({
+  category,
+  catId,
+}: {
+  category: SubCategoryProps[];
   catId: number;
-};
-
-function SubCategory({ category, catId }: SubCategoryProps) {
-  console.log(category);
+}) {
   return (
     <div className="px-5">
       <ul className="relative pl-4 before:absolute before:left-0 before:inset-y-0 before:w-0.5 before:bg-border-pattern">
