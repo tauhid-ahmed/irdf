@@ -1,48 +1,49 @@
 import { prisma } from "@/lib/prisma";
 
-// const duas = await prisma.dua.findMany({
-//   where: {
-//     cat_id: 1, // Replace with category ID
-//     subcat_id: 2, // Replace with subcategory ID
-//   },
-//   include: {
-//     category: {
-//       select: {
-//         id: true,
-//         cat_name_en: true,
-//         cat_name_bn: true,
-//       },
-//     },
-//     sub_category: {
-//       select: {
-//         id: true,
-//         subcat_name_en: true,
-//         subcat_name_bn: true,
-//       },
-//     },
-//   },
-// });
+export const getCategories = async () => {
+  try {
+    return await prisma.category.findMany();
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw new Error("Failed to fetch categories.");
+  }
+};
 
-export const getCategories = async () => await prisma.category.findMany();
+export const getDuasByCategoryId = async (id: string) => {
+  try {
+    return await prisma.dua.findMany({
+      where: {
+        cat_id: +id,
+      },
+    });
+  } catch (error) {
+    console.error(`Error fetching Duas for category ID ${id}:`, error);
+    throw new Error(`Failed to fetch Duas for category ID ${id}.`);
+  }
+};
 
-export const getDuasByCategoryId = async (id: string) =>
-  await prisma.dua.findMany({
-    where: {
-      cat_id: +id,
-    },
-  });
-
-export const getSubCategory = async (id: string) =>
-  await prisma.subCategory.findMany({
-    where: {
-      cat_id: +id,
-    },
-  });
+export const getSubCategory = async (id: string) => {
+  try {
+    return await prisma.subCategory.findMany({
+      where: {
+        cat_id: +id,
+      },
+    });
+  } catch (error) {
+    console.error(`Error fetching subcategories for category ID ${id}:`, error);
+    throw new Error(`Failed to fetch subcategories for category ID ${id}.`);
+  }
+};
 
 export const getAllCategories = async () => {
-  return await prisma.category.findMany({
-    include: {
-      sub_category: true,
-    },
-  });
+  try {
+    return await prisma.category.findMany({
+      include: {
+        sub_category: true,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching all categories with subcategories:", error);
+    throw new Error("Failed to fetch all categories.");
+  }
 };

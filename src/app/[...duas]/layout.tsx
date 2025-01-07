@@ -4,7 +4,6 @@ import { Header, Navigation } from "@/components/header";
 import Settings from "@/components/settings";
 import Categories from "./_components/categories";
 import { getAllCategories } from "@/queries";
-// import { usePathname, useSearchParams } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Dua & Ruqyah | All Duas Collection",
@@ -42,7 +41,7 @@ export default async function DuasLayout({
       <div className="row-start-3 col-span-4 xl:row-start-1 xl:row-span-3 xl:col-start-1 xl:col-span-1 -mx-4 lg:-mx-6 xl:m-0">
         <Navigation />
       </div>
-      <Categories categories={categories} />
+      <Categories categories={categories || []} />
       {children}
       <div className="hidden 2xl:block xl:row-span-2">
         <Settings />

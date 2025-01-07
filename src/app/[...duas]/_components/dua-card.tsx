@@ -3,14 +3,13 @@
 import * as Icons from "@/components/icons";
 import React from "react";
 
-// Define type for `Dua`
 type Dua = {
-  dua_name_en: string;
-  top_en: string;
-  dua_arabic: string;
-  transliteration_en: string;
+  dua_name_en: string | null;
+  top_en: string | null;
+  dua_arabic: string | null;
+  transliteration_en: string | null;
   translation_en: string | null;
-  refference_en: string;
+  refference_en: string | null;
   audio: string | null;
 };
 
